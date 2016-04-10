@@ -23,15 +23,25 @@ System.register(['angular2/core', './album'], function(exports_1, context_1) {
         execute: function() {
             AlbumDetailComponent = (function () {
                 function AlbumDetailComponent() {
+                    this.albumChange = new core_1.EventEmitter();
                 }
+                AlbumDetailComponent.prototype.onSelect = function (album) {
+                    this.album = null;
+                    this.albumChange.emit(this.album);
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', album_1.Album)
                 ], AlbumDetailComponent.prototype, "album", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], AlbumDetailComponent.prototype, "albumChange", void 0);
                 AlbumDetailComponent = __decorate([
                     core_1.Component({
                         selector: 'my-album-detail',
-                        template: "\n    <div *ngIf=\"album\">\n      <h2>{{album.title}}</h2>\n      <img src=\"{{album.image}}\" />\n      <h3>Released on: {{album.releaseDate | date}}</h3>\n    </div>\n  "
+                        template: "\n    <div class=\"albumContainer text-center\" *ngIf=\"album\">\n      <button class=\"close\" type=\"button\" aria-label=\"Close\" (click)=\"onSelect(album)\">\n        <span class=\"fa fa-close\"></span>\n      </button>\n      <h2>{{album.artist}}</h2>\n      <img src=\"{{album.image}}\" />\n      <h2>{{album.name}}</h2>\n      <h3>Released on: {{album.releaseDate | date}}</h3>\n    </div>\n  ",
+                        styles: ["\n    img {\n      margin: 0px auto;\n    }\n    .close {\n      position: relative;\n      top: 0px;\n      right 0px;\n      margin 2px;\n      width: 40px;\n      height: 40px;\n    }\n    .albumContainer {\n      background-color:white;\n      border-style: solid;\n      border-width: medium;\n      border-color: black;\n    }\n  "]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AlbumDetailComponent);

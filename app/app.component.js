@@ -29,20 +29,27 @@ System.register(['angular2/core', './album-detail.component', './album.service']
                     this._albumService = _albumService;
                     this.title = 'Top 100 Albums';
                 }
-                AppComponent.prototype.getAlbums = function () {
-                    var _this = this;
-                    this._albumService.getAlbums().then(function (albums) { return _this.albums = albums; });
-                };
                 AppComponent.prototype.ngOnInit = function () {
+                    var _this = this;
                     this._albumService.seedAlbum();
-                    this.getAlbums();
+                    this._albumService.albums.subscribe(function (albums) {
+                        _this.albums = albums;
+                    });
                 };
-                AppComponent.prototype.onSelect = function (album) { this.selectedAlbum = album; };
+                AppComponent.prototype.onSelect = function (album) {
+                    if (!this.selectedAlbum
+                        || this.selectedAlbum !== album) {
+                        this.selectedAlbum = album;
+                    }
+                    else {
+                        this.selectedAlbum = null;
+                    }
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        template: "\n    <div class=\"container-fluid\">\n      <h1 class=\"text-center\">{{title}}</h1>\n      <div class=\"info col-xs-4 col-sm-6\">\n        <my-album-detail [album]=\"selectedAlbum\"></my-album-detail>\n      </div>\n      <div class=\"albums pull-right col-xs-8 col-sm-6\">\n        <div class=\"btn btn-default col-xs-12\" *ngFor=\"#album of _albumService.albums\"\n          [class.selected]=\"album === selectedAlbum\"\n          (click)=\"onSelect(album)\">\n          <span class=\"badge pull-left\">{{album.artist}}</span>\n          <span class=\"pull-right\">{{album.name}}</span>\n          <span class=\"clear-fix\"></span>\n        </div>\n      </div>\n    </div>\n  ",
-                        styles: ["\n    .selected {\n      background-color: #CFD8DC !important;\n      color: white;\n    }\n    .info {\n      position:fixed;\n      top:250px;\n      left:5px;\n    }\n    .albums {\n      margin: 0 0 2em 0;\n      list-style-type: none;\n      padding: 0;\n    }\n    .albums div {\n      cursor: pointer;\n      position: relative;\n      left: 0;\n      background-color: #EEE;\n      margin: .5em;\n      border-radius: 4px;\n    }\n    .albums div.selected:hover {\n      background-color: #BBD8DC !important;\n      color: white;\n    }\n    .albums div:hover {\n      color: #607D8B;\n      background-color: #DDD;\n      left: .1em;\n    }\n    .albums .text {\n      position: relative;\n      top: -3px;\n    }\n    .albums .badge {\n      display: inline-block;\n      font-size: small;\n      color: white;\n      background-color: #607D8B;\n      overflow: auto;\n      position: relative;\n      left: -1px;\n      top: -4px;\n      margin-right: .8em;\n      border-radius: 4px 0 0 4px;\n    }\n  "],
+                        template: "\n    <div class=\"container-fluid\">\n      <h1 class=\"text-center\">{{title}}</h1>\n      <div class=\"info col-xs-12 col-sm-6\">\n        <my-album-detail [(album)]=\"selectedAlbum\"></my-album-detail>\n      </div>\n      <div class=\"albums pull-right col-xs-12 col-sm-6\">\n        <div class=\"btn btn-default col-xs-12\" *ngFor=\"#album of albums\"\n          [class.selected]=\"album === selectedAlbum\"\n          (click)=\"onSelect(album)\">\n          <span class=\"badge col-xs-12 col-sm-6\">{{album.artist}}</span>\n          <span class=\"name col-xs-12 col-sm-6\">{{album.name}}</span>\n        </div>\n      </div>\n    </div>\n  ",
+                        styles: ["\n    .selected {\n      background-color: #CFD8DC !important;\n      color: white;\n    }\n    .info {\n      position:fixed;\n      top:80px;\n      left:2px;\n      z-index:10;\n    }\n    .albums {\n      margin: 0 0 2em 0;\n      list-style-type: none;\n      padding: 0;\n    }\n    .albums .name {\n      overflow: hidden;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n    }\n    .albums .btn {\n      cursor: pointer;\n      position: relative;\n      left: 0;\n      background-color: #EEE;\n      margin: .5em;\n      border-radius: 4px;\n    }\n    .albums .btn div.selected:hover {\n      background-color: #BBD8DC !important;\n      color: white;\n    }\n    .albums .btn div:hover {\n      color: #607D8B;\n      background-color: #DDD;\n      left: .1em;\n    }\n    .albums .text {\n      position: relative;\n      top: -3px;\n    }\n    .albums .badge {\n      font-size: small;\n      color: white;\n      background-color: #607D8B;\n      position: relative;\n      left: -1px;\n      top: -4px;\n      border-radius: 4px 0 0 4px;\n      overflow: hidden;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n    }\n  "],
                         directives: [album_detail_component_1.AlbumDetailComponent],
                         providers: [album_service_1.AlbumService]
                     }), 

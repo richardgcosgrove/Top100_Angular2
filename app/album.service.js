@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './album'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/add/operator/map', './album'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './a
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, album_1;
+    var core_1, http_1, Rx_1, album_1;
     var AlbumService;
     return {
         setters:[
@@ -20,6 +20,9 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './a
             function (http_1_1) {
                 http_1 = http_1_1;
             },
+            function (Rx_1_1) {
+                Rx_1 = Rx_1_1;
+            },
             function (_1) {},
             function (album_1_1) {
                 album_1 = album_1_1;
@@ -28,6 +31,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './a
             AlbumService = (function () {
                 function AlbumService(http) {
                     this.http = http;
+                    this.albums = new Rx_1.Subject();
                 }
                 AlbumService.prototype.makeRequest = function () {
                     this.loading = true;
@@ -38,8 +42,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './a
                     var _this = this;
                     this.makeRequest()
                         .subscribe(function (res) {
-                        _this.data = res;
-                        _this.albums = res['feed'].entry.map(function (item) {
+                        _this.albums.next(res['feed'].entry.map(function (item) {
                             return new album_1.Album({
                                 name: item['im:name'].label,
                                 title: item.title.label,
@@ -49,11 +52,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './a
                                 artist: item['im:artist'].label,
                                 releaseDate: new Date(item['im:releaseDate'].label),
                             });
-                        });
+                        }));
                     });
-                };
-                AlbumService.prototype.getAlbums = function () {
-                    return Promise.resolve(this.albums);
                 };
                 AlbumService = __decorate([
                     core_1.Injectable(), 

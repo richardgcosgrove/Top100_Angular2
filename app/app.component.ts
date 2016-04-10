@@ -8,16 +8,15 @@ import {AlbumService} from './album.service';
   template:`
     <div class="container-fluid">
       <h1 class="text-center">{{title}}</h1>
-      <div class="info col-xs-4 col-sm-6">
-        <my-album-detail [album]="selectedAlbum"></my-album-detail>
+      <div class="info col-xs-12 col-sm-6">
+        <my-album-detail [(album)]="selectedAlbum"></my-album-detail>
       </div>
-      <div class="albums pull-right col-xs-8 col-sm-6">
-        <div class="btn btn-default col-xs-12" *ngFor="#album of _albumService.albums"
+      <div class="albums pull-right col-xs-12 col-sm-6">
+        <div class="btn btn-default col-xs-12" *ngFor="#album of albums"
           [class.selected]="album === selectedAlbum"
           (click)="onSelect(album)">
-          <span class="badge pull-left">{{album.artist}}</span>
-          <span class="pull-right">{{album.name}}</span>
-          <span class="clear-fix"></span>
+          <span class="badge col-xs-12 col-sm-6">{{album.artist}}</span>
+          <span class="name col-xs-12 col-sm-6">{{album.name}}</span>
         </div>
       </div>
     </div>
@@ -29,15 +28,21 @@ import {AlbumService} from './album.service';
     }
     .info {
       position:fixed;
-      top:250px;
-      left:5px;
+      top:80px;
+      left:2px;
+      z-index:10;
     }
     .albums {
       margin: 0 0 2em 0;
       list-style-type: none;
       padding: 0;
     }
-    .albums div {
+    .albums .name {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .albums .btn {
       cursor: pointer;
       position: relative;
       left: 0;
@@ -45,11 +50,11 @@ import {AlbumService} from './album.service';
       margin: .5em;
       border-radius: 4px;
     }
-    .albums div.selected:hover {
+    .albums .btn div.selected:hover {
       background-color: #BBD8DC !important;
       color: white;
     }
-    .albums div:hover {
+    .albums .btn div:hover {
       color: #607D8B;
       background-color: #DDD;
       left: .1em;
@@ -59,16 +64,16 @@ import {AlbumService} from './album.service';
       top: -3px;
     }
     .albums .badge {
-      display: inline-block;
       font-size: small;
       color: white;
       background-color: #607D8B;
-      overflow: auto;
       position: relative;
       left: -1px;
       top: -4px;
-      margin-right: .8em;
       border-radius: 4px 0 0 4px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   `],
   directives: [AlbumDetailComponent],
@@ -81,16 +86,22 @@ export class AppComponent implements OnInit {
 
   constructor(private _albumService: AlbumService) { }
 
-  getAlbums() {
-    this._albumService.getAlbums().then(albums => this.albums = albums);
-  }
-
   ngOnInit() {
-    this._albumService.seedAlbum();
-    this.getAlbums();
+      this._albumService.seedAlbum();
+      this._albumService.albums.subscribe(albums => {
+        this.albums = albums
+      });
   }
 
-  onSelect(album: Album) { this.selectedAlbum = album; }
+  onSelect(album: Album) {
+    if (!this.selectedAlbum
+      || this.selectedAlbum !== album) {
+        this.selectedAlbum = album;
+      }
+      else {
+        this.selectedAlbum = null;
+      }
+   }
 }
 
 
