@@ -8,10 +8,10 @@ import {AlbumService} from './album.service';
   template:`
     <div class="container-fluid">
       <h1 class="text-center">{{title}}</h1>
-      <div class="col-xs-4 col-sm-6">
+      <div class="info col-xs-4 col-sm-6">
         <my-album-detail [album]="selectedAlbum"></my-album-detail>
       </div>
-      <div class="col-xs-8 col-sm-6">
+      <div class="albums pull-right col-xs-8 col-sm-6">
         <div class="btn btn-default col-xs-12" *ngFor="#album of _albumService.albums"
           [class.selected]="album === selectedAlbum"
           (click)="onSelect(album)">
@@ -27,27 +27,29 @@ import {AlbumService} from './album.service';
       background-color: #CFD8DC !important;
       color: white;
     }
+    .info {
+      position:fixed;
+      top:250px;
+      left:5px;
+    }
     .albums {
       margin: 0 0 2em 0;
       list-style-type: none;
       padding: 0;
-      width: 15em;
     }
-    .albums li {
+    .albums div {
       cursor: pointer;
       position: relative;
       left: 0;
       background-color: #EEE;
       margin: .5em;
-      padding: .3em 0;
-      height: 1.6em;
       border-radius: 4px;
     }
-    .albums li.selected:hover {
+    .albums div.selected:hover {
       background-color: #BBD8DC !important;
       color: white;
     }
-    .albums li:hover {
+    .albums div:hover {
       color: #607D8B;
       background-color: #DDD;
       left: .1em;
@@ -60,13 +62,11 @@ import {AlbumService} from './album.service';
       display: inline-block;
       font-size: small;
       color: white;
-      padding: 0.8em 0.7em 0 0.7em;
       background-color: #607D8B;
-      line-height: 1em;
+      overflow: auto;
       position: relative;
       left: -1px;
       top: -4px;
-      height: 1.8em;
       margin-right: .8em;
       border-radius: 4px 0 0 4px;
     }
