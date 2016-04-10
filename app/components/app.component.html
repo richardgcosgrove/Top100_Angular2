@@ -15,7 +15,7 @@
   <div class="info col-xs-12 col-sm-6">
     <my-album-detail [(album)]="selectedAlbum"></my-album-detail>
   </div>
-  <div class="albums col-xs-12 col-sm-6">
+  <div class="albums pull-right col-xs-12 col-sm-6">
     <div class="btn btn-default col-xs-12"
       *ngFor="#album of albums | albumFilter:listFilter.value"
       [class.selected]="album === selectedAlbum"
