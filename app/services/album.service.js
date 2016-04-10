@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/add/operator/map', './album'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/add/operator/map', '../models/album'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -34,7 +34,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/add/operator
                     this.albums = new Rx_1.Subject();
                 }
                 AlbumService.prototype.makeRequest = function () {
-                    this.loading = true;
                     return this.http.get('https://itunes.apple.com/us/rss/topalbums/limit=100/json')
                         .map(function (res) { return res.json(); });
                 };
@@ -48,7 +47,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/add/operator
                                 title: item.title.label,
                                 rights: item.rights.label,
                                 image: item['im:image'][2].label,
-                                link: item.link.label,
+                                link: item.link.attributes.href,
                                 artist: item['im:artist'].label,
                                 releaseDate: new Date(item['im:releaseDate'].label),
                             });

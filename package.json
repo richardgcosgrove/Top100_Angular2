@@ -7,7 +7,8 @@
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "typings": "typings",
-    "postinstall": "typings install"
+    "postinstall": "typings install",
+    "build-css": "node-sass --include-path scss app/scss/app.scss   app/scss/app.css && node-sass --include-path scss app/scss/album-detail.scss   app/scss/album-detail.css"
   },
   "license": "ISC",
   "dependencies": {
@@ -20,8 +21,10 @@
     "zone.js": "0.6.6"
   },
   "devDependencies": {
+    "broccoli-sass": "^0.7.0",
     "concurrently": "^2.0.0",
     "lite-server": "^2.2.0",
+    "node-sass": "^3.4.2",
     "typescript": "^1.8.9",
     "typings": "^0.7.12"
   }

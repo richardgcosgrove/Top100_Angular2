@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="top">
+    <h1 class="title text-center">{{title}}</h1>
+    <div class="form-group">
+      <label for="filterInput" class="sr-only">Filter</label>
+      <span class="input-group">
+        <input id="filterInput" class="form-control col-xs-12 text-center"
+         type="text" placeholder="Filter Albums"  #listFilter (keyup)="0" />
+         <span class="input-group-addon" type="button" (click)="clearFilter(listFilter)">
+          <span class="fa fa-close"></span>
+         </span>
+      </span>
+    </div>
+  </div>
+  <div class="info col-xs-12 col-sm-6">
+    <my-album-detail [(album)]="selectedAlbum"></my-album-detail>
+  </div>
+  <div class="albums col-xs-12 col-sm-6">
+    <div class="btn btn-default col-xs-12"
+      *ngFor="#album of albums | albumFilter:listFilter.value"
+      [class.selected]="album === selectedAlbum"
+      (click)="onSelect(album)">
+      <span class="badge col-xs-12 col-sm-6">{{album.artist}}</span>
+      <span class="name col-xs-12 col-sm-6">{{album.name}}</span>
+    </div>
+  </div>
+</div>

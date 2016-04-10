@@ -1,0 +1,9 @@
+<div class="albumInfo text-center" *ngIf="album" >
+  <button class="close" type="button" aria-label="Close" (click)="onSelect(album)">
+    <span class="fa fa-close"></span>
+  </button>
+  <h2>{{album.artist}}</h2>
+  <img src="{{album.image}}" />
+  <h2><a href="{{album.link}}">{{album.name}}</a></h2>
+  <h3>Released on: {{album.releaseDate | date}}</h3>
+</div>

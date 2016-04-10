@@ -4,19 +4,17 @@ import {Observable,Subject} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 
-import {Album} from './album';
+import {Album} from '../models/album';
 
 @Injectable()
 export class AlbumService {
   albums : Subject<Album[]> = new Subject<Album[]>();
-  loading: boolean;
 
   constructor(public http: Http) {
   }
 
 
   makeRequest(): Observable<any[]> {
-    this.loading = true;
     return this.http.get('https://itunes.apple.com/us/rss/topalbums/limit=100/json')
     .map(res => {return res.json(); });
   }
@@ -30,7 +28,7 @@ export class AlbumService {
             title : item.title.label,
             rights : item.rights.label,
             image : item['im:image'][2].label,
-            link : item.link.label,
+            link : item.link.attributes.href,
             artist : item['im:artist'].label,
             releaseDate : new Date(item['im:releaseDate'].label),
           });

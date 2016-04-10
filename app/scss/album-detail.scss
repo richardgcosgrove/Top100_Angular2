@@ -1,0 +1,35 @@
+  img {
+    margin: 0px auto;
+  }
+  .close {
+    position: relative;
+    top: 0px;
+    right: 0px;
+    margin: 2px;
+    width: 40px;
+    height: 40px;
+  }
+  .albumInfo {
+    background-color:white;
+    border-style: solid;
+    border-width: medium;
+    border-color: black;
+    -webkit-animation: sk-bounce 1.0s ease-in-out;
+    animation: sk-bounce 1.0s ease-in-out;
+  }
+
+
+  @-webkit-keyframes sk-bounce {
+    0% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
+  }
+
+  @keyframes sk-bounce {
+    0% {
+      transform: scale(0.0);
+      -webkit-transform: scale(0.0);
+    } 50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+      }
+  }
