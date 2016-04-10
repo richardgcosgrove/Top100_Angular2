@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './album'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1;
+    var core_1, http_1, album_1;
     var AlbumService;
     return {
         setters:[
@@ -19,6 +19,10 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+            },
+            function (_1) {},
+            function (album_1_1) {
+                album_1 = album_1_1;
             }],
         execute: function() {
             AlbumService = (function () {
@@ -26,12 +30,26 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                     this.http = http;
                 }
                 AlbumService.prototype.makeRequest = function () {
-                    var _this = this;
                     this.loading = true;
-                    this.http.request('https://itunes.apple.com/us/rss/topalbums/limit=100/json')
+                    return this.http.get('https://itunes.apple.com/us/rss/topalbums/limit=100/json')
+                        .map(function (res) { return res.json(); });
+                };
+                AlbumService.prototype.seedAlbum = function () {
+                    var _this = this;
+                    this.makeRequest()
                         .subscribe(function (res) {
-                        _this.data = res.json();
-                        _this.loading = false;
+                        _this.data = res;
+                        _this.albums = res['feed'].entry.map(function (item) {
+                            return new album_1.Album({
+                                name: item['im:name'].label,
+                                title: item.title.label,
+                                rights: item.rights.label,
+                                image: item['im:image'][2].label,
+                                link: item.link.label,
+                                artist: item['im:artist'].label,
+                                releaseDate: new Date(item['im:releaseDate'].label),
+                            });
+                        });
                     });
                 };
                 AlbumService.prototype.getAlbums = function () {

@@ -5,7 +5,7 @@ export class Album {
   title : string;
   link : string;
   artist : string;
-  releaseDate : string;
+  releaseDate : Date;
 
   constructor(obj?: any) {
     this.name            = obj && obj.name           || null;
