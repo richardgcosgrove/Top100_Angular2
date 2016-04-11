@@ -10,7 +10,7 @@ export class AlbumDetailComponent {
   @Input() album: Album;
   @Output() albumChange : EventEmitter<Album> = new EventEmitter<Album>();
 
-  onSelect(album: Album) {
+  onSelect(album: Album) : void  {
     this.album = null;
     this.albumChange.emit(this.album);
    }

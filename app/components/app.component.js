@@ -51,6 +51,9 @@ System.register(['angular2/core', './album-detail.component', '../services/album
                 AppComponent.prototype.clearFilter = function (filter) {
                     filter.value = null;
                 };
+                AppComponent.prototype.selectRandom = function () {
+                    this.selectedAlbum = this.albums[Math.floor(Math.random() * this.albums.length) + 1];
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
