@@ -20,14 +20,14 @@ export class AppComponent implements OnInit {
 
   constructor(private _albumService: AlbumService) { }
 
-  ngOnInit() {
+  ngOnInit() : void  {
       this._albumService.seedAlbum();
       this._albumService.albums.subscribe(albums => {
         this.albums = albums
       });
   }
 
-  onSelect(album: Album) {
+  onSelect(album: Album) : void  {
     if (!this.selectedAlbum
       || this.selectedAlbum !== album) {
         this.selectedAlbum = album;
@@ -37,8 +37,12 @@ export class AppComponent implements OnInit {
       }
    }
 
-   clearFilter(filter : HTMLInputElement){
+   clearFilter(filter : HTMLInputElement) : void {
      filter.value = null;
+   }
+
+   selectRandom() : void {
+      this.selectedAlbum = this.albums[Math.floor(Math.random() * this.albums.length)+1];
    }
 }
 
