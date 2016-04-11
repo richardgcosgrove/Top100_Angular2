@@ -14,17 +14,17 @@
     border-style: solid;
     border-width: medium;
     border-color: black;
-    -webkit-animation: sk-bounce 1.0s ease-in-out;
-    animation: sk-bounce 1.0s ease-in-out;
+    -webkit-animation: sk-fade 1.0s ease-in-out;
+    animation: sk-fade 1.0s ease-in-out;
   }
 
 
-  @-webkit-keyframes sk-bounce {
+  @-webkit-keyframes sk-fade {
     0% { -webkit-transform: scale(0.0) }
     50% { -webkit-transform: scale(1.0) }
   }
 
-  @keyframes sk-bounce {
+  @keyframes sk-fade {
     0% {
       transform: scale(0.0);
       -webkit-transform: scale(0.0);
